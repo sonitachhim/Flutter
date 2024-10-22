@@ -1,27 +1,30 @@
 class MyDuration {
-  
+  final int _ms;
+  MyDuration.ms(this._ms);
+  MyDuration.s(int second) : this.ms(second * 1000);
+  MyDuration.m(int minute) : this.ms(minute * 60 * 1000);
+  MyDuration.h(int hour) : this.ms(hour * 3600 * 1000);
 
-//   // Display the duration in a readable format
-//   @override
-//   String toString() {
-//     int seconds = (_milliseconds / 1000).round();
-//     int minutes = (seconds / 60).floor();
-//     seconds = seconds % 60;
-//     int hours = (minutes / 60).floor();
-//     minutes = minutes % 60;
-//     return '$hours hours, $minutes minutes, $seconds seconds';
-//   }
-// }
+  int get ms => _ms;
+  double get s => _ms / 1000;
+  double get m => _ms / 60 / 1000;
+  double get h => _ms / 3600 / 1000;
 
-// void main() {
-//   MyDuration duration1 = MyDuration.fromHours(3); // 3 hours
-//   MyDuration duration2 = MyDuration.fromMinutes(45); // 45 minutes
-//   print(duration1 + duration2); // 3 hours, 45 minutes, 0 seconds
-//   print(duration1>duration2); //true
+  MyDuration operator +(MyDuration other) {
+    return MyDuration.ms(this._ms + other.ms);
+  }
 
-//   try {
-//     print(duration2 - duration1); // This will throw an exception
-//   } catch (e) {
-//     print(e); 
-//   }
+  bool operator >(MyDuration other) {
+    return this._ms > other.ms;
+  }
+  bool operator <(MyDuration other) {
+    return this._ms < other.ms;
+  }
+}
+
+main() {
+  MyDuration d1 = MyDuration.s(4);
+  MyDuration d2 = MyDuration.m(2);
+  print((d1 + d2).s);
+  print(d1 > d2); //return false
 }
